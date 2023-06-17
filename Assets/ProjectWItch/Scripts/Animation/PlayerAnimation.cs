@@ -32,11 +32,15 @@ namespace ProjectWItch.Scripts.Animation
         private void OnEnable()
         {
             _playerEvent.OnPlayerMove += OnPlayerMoveAnimation;
+
+            _playerEvent.OnPlayerChangeBroom += OnPlayerUseBroom;
         }
 
         private void OnDisable()
         {
             _playerEvent.OnPlayerMove -= OnPlayerMoveAnimation;
+
+            _playerEvent.OnPlayerChangeBroom -= OnPlayerUseBroom;
         }
 
         #region Main
@@ -50,6 +54,11 @@ namespace ProjectWItch.Scripts.Animation
         private void OnPlayerMoveAnimation(float speed)
         {
             _playerAnimator.SetFloat("Speed", speed);
+        }
+
+        private void OnPlayerUseBroom(bool useBroom)
+        {
+            _playerAnimator.SetBool("OnBroom", useBroom);
         }
 
         #endregion
