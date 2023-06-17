@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Scripts.Interfaces
+namespace ProjectWItch.Scripts.Interfaces
 {
     /// <summary>
     /// Handle the input for movement.
@@ -10,7 +10,7 @@ namespace Scripts.Interfaces
         /// <summary>
         /// The input value that player give when pressed move input.
         /// </summary>
-        Vector2 InputRead { get; set; }
+        Vector2 MoveInputReader { get; set; }
 
         /// <summary>
         /// The direction where the player will move based on the input.

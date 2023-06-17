@@ -1,22 +1,24 @@
-using Scripts.Interfaces;
+using ProjectWItch.Scripts.Interfaces;
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace Scripts.Player.PlayerInput
+namespace ProjectWitch.Scripts.Player.Movement
 {
     /// <summary>
     /// Handle the movement for player.
     /// </summary>
-    public class PlayerMovement : MonoBehaviour, IMoveInput, IMoveData
+    public class PlayerMovement : MonoBehaviour, IMoveInput, IMoveData, IPlayerEvent
     {
         #region IMoveInput
 
         public Vector3 MoveDirection { get; set; } = default;
-        public Vector2 InputRead { get; set; } = default;
+        public Vector2 MoveInputReader { get; set; } = default;
 
         #endregion
 
         #region IMoveData
+
+        [field: Header("Move Data")]
 
         [field: SerializeField]
         public float MoveSpeed { get; set; } = default;
@@ -29,12 +31,23 @@ namespace Scripts.Player.PlayerInput
 
         #endregion
 
+        #region IPlayerEvent
+
+        public event Action<float> OnPlayerMove = default;
+
+        #endregion
+
         #region Variable
 
         /// <summary>
         /// Component that use to calculate the player movement.
         /// </summary>
-        private Rigidbody _rb;
+        private Rigidbody _rb = null;
+
+        /// <summary>
+        /// Componnent that use to check ground under the player.
+        /// </summary>
+        private IGroundCheck _groundCheck = null;
 
         /// <summary>
         /// An input action for player.
@@ -48,6 +61,8 @@ namespace Scripts.Player.PlayerInput
         private void Awake()
         {
             _rb = GetComponent<Rigidbody>();
+
+            _groundCheck = GetComponent<IGroundCheck>();
 
             _playerInputAction = new PlayerInputActions();
         }
@@ -72,7 +87,7 @@ namespace Scripts.Player.PlayerInput
 
         private void Update()
         {
-            InputRead = _playerInputAction.Player.Move.ReadValue<Vector2>();
+            MoveInputReader = _playerInputAction.Player.Move.ReadValue<Vector2>();
         }
 
         private void FixedUpdate()
@@ -86,31 +101,32 @@ namespace Scripts.Player.PlayerInput
 
         #region Main
 
+        /// <summary>
+        /// To calculate the movement for the player.
+        /// </summary>
         private void MoveCalculation()
         {
-            MoveDirection = new Vector3(InputRead.x, 0.0f, InputRead.y);
+            MoveDirection = new Vector3(MoveInputReader.x, 0.0f, MoveInputReader.y);
 
-            if (IsGrounded())
+            OnPlayerMove(MoveInputReader.magnitude);
+
+            if (_groundCheck.IsGrounded("Ground") && MoveDirection != Vector3.zero)
             {
-                _rb.AddForce(MoveDirection * MoveSpeed, ForceMode.Impulse);
-
-                _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, MaxVelocity);
+                _rb.velocity = Vector3.ClampMagnitude(MoveDirection * MoveSpeed, MaxVelocity);
 
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(MoveDirection), RotationSpeed * Time.deltaTime);
             }
         }
 
+        /// <summary>
+        /// To calculate the downward velocity for the player.
+        /// </summary>
         private void DownwardCalculation()
         {
-            if (!IsGrounded()) 
+            if (!_groundCheck.IsGrounded("Ground")) 
             {
                 _rb.AddForce(new Vector3(0.0f, -5.0f * Time.deltaTime, 0.0f), ForceMode.Impulse);
             }
-        }
-
-        private bool IsGrounded()
-        {
-            return Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z), Vector3.down, 0.8f);
         }
 
         #endregion

@@ -1,4 +1,4 @@
-namespace Scripts.Interfaces
+namespace ProjectWItch.Scripts.Interfaces
 {
     /// <summary>
     /// The data that needed to make object move.
