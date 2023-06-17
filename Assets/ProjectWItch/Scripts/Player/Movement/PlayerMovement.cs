@@ -54,6 +54,14 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// </summary>
         private PlayerInputActions _playerInputAction = null;
 
+        /// <summary>
+        /// The normal ground layer to check if player touch it or not.
+        /// </summary>
+        [Header("Layer")]
+
+        [SerializeField]
+        private LayerMask _groundLayerMask = default;
+
         #endregion
 
         #region Mono
@@ -110,7 +118,7 @@ namespace ProjectWitch.Scripts.Player.Movement
 
             OnPlayerMove(MoveInputReader.magnitude);
 
-            if (_groundCheck.IsGrounded("Ground") && MoveDirection != Vector3.zero)
+            if (_groundCheck.IsGrounded(_groundLayerMask) && MoveDirection != Vector3.zero)
             {
                 _rb.velocity = Vector3.ClampMagnitude(MoveDirection * MoveSpeed, MaxVelocity);
 
@@ -123,7 +131,8 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// </summary>
         private void DownwardCalculation()
         {
-            if (!_groundCheck.IsGrounded("Ground")) 
+
+            if (!_groundCheck.IsGrounded(_groundLayerMask)) 
             {
                 _rb.AddForce(new Vector3(0.0f, -5.0f * Time.deltaTime, 0.0f), ForceMode.Impulse);
             }

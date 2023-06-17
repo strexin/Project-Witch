@@ -20,11 +20,6 @@ namespace ProjectWItch.Scripts.Animation
         /// </summary>
         private IPlayerEvent _playerEvent = null;
 
-        /// <summary>
-        /// Condition is the player on the broom or not.
-        /// </summary>
-        private bool _isOnBroom = default;
-
         #endregion
 
         private void Awake()
@@ -44,11 +39,6 @@ namespace ProjectWItch.Scripts.Animation
             _playerEvent.OnPlayerMove -= OnPlayerMoveAnimation;
         }
 
-        private void Start()
-        {
-            _isOnBroom = false;
-        }
-
         #region Main
 
         /// <summary>
@@ -59,8 +49,6 @@ namespace ProjectWItch.Scripts.Animation
         /// </param>
         private void OnPlayerMoveAnimation(float speed)
         {
-            Debug.Log(speed);
-
             _playerAnimator.SetFloat("Speed", speed);
         }
 
