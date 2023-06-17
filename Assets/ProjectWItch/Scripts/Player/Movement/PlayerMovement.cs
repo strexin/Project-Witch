@@ -1,6 +1,7 @@
 using ProjectWItch.Scripts.Interfaces;
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace ProjectWitch.Scripts.Player.Movement
 {
@@ -35,6 +36,8 @@ namespace ProjectWitch.Scripts.Player.Movement
 
         public event Action<float> OnPlayerMove = default;
 
+        public event Action<bool> OnPlayerChangeBroom = default;
+
         #endregion
 
         #region Variable
@@ -53,6 +56,11 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// An input action for player.
         /// </summary>
         private PlayerInputActions _playerInputAction = null;
+
+        /// <summary>
+        /// Condition which the player is on broom or not.
+        /// </summary>
+        private bool _onBroom = default;
 
         /// <summary>
         /// The normal ground layer to check if player touch it or not.
@@ -78,11 +86,15 @@ namespace ProjectWitch.Scripts.Player.Movement
         private void OnEnable()
         {
             _playerInputAction.Player.Enable();
+
+            _playerInputAction.Player.Broom.performed += OnBroomChange;
         }
 
         private void OnDisable()
         {
             _playerInputAction.Player.Disable();
+
+            _playerInputAction.Player.Broom.performed -= OnBroomChange;
         }
 
         private void Start()
@@ -135,6 +147,26 @@ namespace ProjectWitch.Scripts.Player.Movement
             if (!_groundCheck.IsGrounded(_groundLayerMask)) 
             {
                 _rb.AddForce(new Vector3(0.0f, -5.0f * Time.deltaTime, 0.0f), ForceMode.Impulse);
+            }
+        }
+
+        /// <summary>
+        /// Change the player from use broom or not.
+        /// </summary>
+        /// <param name="context">
+        /// THe button callback context from input system. 
+        /// </param>
+        private void OnBroomChange(InputAction.CallbackContext context)
+        {
+            if (_onBroom)
+            {
+                _onBroom = false;
+                OnPlayerChangeBroom(_onBroom);
+            }
+            else
+            {
+                _onBroom = true;
+                OnPlayerChangeBroom(_onBroom);
             }
         }
 

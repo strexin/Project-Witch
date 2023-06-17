@@ -11,5 +11,10 @@ namespace ProjectWItch.Scripts.Interfaces
         /// Event that called when the player move.
         /// </summary>
         event Action<float> OnPlayerMove;
+
+        /// <summary>
+        /// Event that called when the player use broom or not.
+        /// </summary>
+        event Action<bool> OnPlayerChangeBroom;
     }
 }
