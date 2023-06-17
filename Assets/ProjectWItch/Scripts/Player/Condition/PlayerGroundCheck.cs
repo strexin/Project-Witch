@@ -15,6 +15,11 @@ namespace ProjectWitch.Scripts.Player.Condition
         /// </summary>
         private Ray _ray = default;
 
+        /// <summary>
+        /// The collider that got hit by the raycast.
+        /// </summary>
+        private RaycastHit _hit = default;
+
         #endregion
 
         #region IGroundCheck
@@ -24,27 +29,16 @@ namespace ProjectWitch.Scripts.Player.Condition
         [field: SerializeField]
         public float MaxDistanceCheck { get; set; } = default;
 
-        public bool IsGrounded(string tag)
+        public bool IsGrounded(LayerMask layer)
         {
-            var _downRay = Physics.Raycast(_ray, MaxDistanceCheck);
+            _ray = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), Vector3.down);
 
-            Debug.DrawRay(transform.position, Vector3.down, Color.red);
-
-            if (tag == "Ground")
+            if (Physics.Raycast(_ray, out _hit, MaxDistanceCheck, layer))
             {
-                return _downRay;
+                return true;
             }
 
-            return false;
-        }
-
-        #endregion
-
-        #region Mono
-
-        private void Start()
-        {
-            _ray = new Ray(transform.position, Vector3.down);
+            return false; 
         }
 
         #endregion
