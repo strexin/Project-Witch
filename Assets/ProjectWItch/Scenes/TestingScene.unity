@@ -2613,6 +2613,8 @@ GameObject:
   - component: {fileID: 1431725252}
   - component: {fileID: 1431725254}
   - component: {fileID: 1431725256}
+  - component: {fileID: 1431725259}
+  - component: {fileID: 1431725258}
   - component: {fileID: 1431725255}
   - component: {fileID: 1431725257}
   m_Layer: 0
@@ -2720,6 +2722,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MaxDistanceCheck>k__BackingField: 0.6
+--- !u!114 &1431725258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431725251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd76dafafbfd1a147be415f983afa4ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1431725259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431725251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef470b3f3237fa44ea9cc6ac738ff241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1460613619
 PrefabInstance:
   m_ObjectHideFlags: 0

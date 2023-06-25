@@ -1,22 +1,14 @@
 using ProjectWItch.Scripts.Interfaces;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace ProjectWitch.Scripts.Player.Movement
 {
     /// <summary>
-    /// Handle the movement for player.
+    /// Handle the normal movement for player.
     /// </summary>
-    public class PlayerMovement : MonoBehaviour, IMoveInput, IMoveData, IPlayerEvent
+    public class PlayerMovement : MonoBehaviour, IMoveData, IPlayerEvent
     {
-        #region IMoveInput
-
-        public Vector3 MoveDirection { get; set; } = default;
-        public Vector2 MoveInputReader { get; set; } = default;
-
-        #endregion
-
         #region IMoveData
 
         [field: Header("Move Data")]
@@ -53,14 +45,14 @@ namespace ProjectWitch.Scripts.Player.Movement
         private IGroundCheck _groundCheck = null;
 
         /// <summary>
-        /// An input action for player.
+        /// Component that use to check move input that is given by player.
         /// </summary>
-        private PlayerInputActions _playerInputAction = null;
+        private IMoveInput _playerMoveInput = null;
 
         /// <summary>
-        /// Condition which the player is on broom or not.
+        /// TEMPORARY (Component that use to know if player press an action input.)
         /// </summary>
-        private bool _onBroom = default;
+        private IActionInput _playerActionInput = null;
 
         /// <summary>
         /// The normal ground layer to check if player touch it or not.
@@ -80,21 +72,9 @@ namespace ProjectWitch.Scripts.Player.Movement
 
             _groundCheck = GetComponent<IGroundCheck>();
 
-            _playerInputAction = new PlayerInputActions();
-        }
+            _playerMoveInput = GetComponent<IMoveInput>();
 
-        private void OnEnable()
-        {
-            _playerInputAction.Player.Enable();
-
-            _playerInputAction.Player.Broom.performed += OnBroomChange;
-        }
-
-        private void OnDisable()
-        {
-            _playerInputAction.Player.Disable();
-
-            _playerInputAction.Player.Broom.performed -= OnBroomChange;
+            _playerActionInput = GetComponent<IActionInput>();
         }
 
         private void Start()
@@ -105,9 +85,14 @@ namespace ProjectWitch.Scripts.Player.Movement
             _rb.freezeRotation = true;
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            MoveInputReader = _playerInputAction.Player.Move.ReadValue<Vector2>();
+            _playerActionInput._onBroomInput += OnBroomChange;
+        }
+
+        private void OnDisable()
+        {
+            _playerActionInput._onBroomInput -= OnBroomChange;
         }
 
         private void FixedUpdate()
@@ -126,15 +111,13 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// </summary>
         private void MoveCalculation()
         {
-            MoveDirection = new Vector3(MoveInputReader.x, 0.0f, MoveInputReader.y);
+            OnPlayerMove(_playerMoveInput.MoveInputReader.magnitude);
 
-            OnPlayerMove(MoveInputReader.magnitude);
-
-            if (_groundCheck.IsGrounded(_groundLayerMask) && MoveDirection != Vector3.zero)
+            if (_groundCheck.IsGrounded(_groundLayerMask) && _playerMoveInput.MoveDirection != Vector3.zero)
             {
-                _rb.velocity = Vector3.ClampMagnitude(MoveDirection * MoveSpeed, MaxVelocity);
+                _rb.velocity = Vector3.ClampMagnitude(_playerMoveInput.MoveDirection * MoveSpeed, MaxVelocity);
 
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(MoveDirection), RotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_playerMoveInput.MoveDirection), RotationSpeed * Time.deltaTime);
             }
         }
 
@@ -153,21 +136,9 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// <summary>
         /// Change the player from use broom or not.
         /// </summary>
-        /// <param name="context">
-        /// THe button callback context from input system. 
-        /// </param>
-        private void OnBroomChange(InputAction.CallbackContext context)
+        private void OnBroomChange(bool isBroomPressed)
         {
-            if (_onBroom)
-            {
-                _onBroom = false;
-                OnPlayerChangeBroom(_onBroom);
-            }
-            else
-            {
-                _onBroom = true;
-                OnPlayerChangeBroom(_onBroom);
-            }
+            OnPlayerChangeBroom.Invoke(isBroomPressed);
         }
 
         #endregion
