@@ -50,11 +50,6 @@ namespace ProjectWitch.Scripts.Player.Movement
         private IMoveInput _playerMoveInput = null;
 
         /// <summary>
-        /// TEMPORARY (Component that use to know if player press an action input.)
-        /// </summary>
-        private IActionInput _playerActionInput = null;
-
-        /// <summary>
         /// The normal ground layer to check if player touch it or not.
         /// </summary>
         [Header("Layer")]
@@ -73,32 +68,20 @@ namespace ProjectWitch.Scripts.Player.Movement
             _groundCheck = GetComponent<IGroundCheck>();
 
             _playerMoveInput = GetComponent<IMoveInput>();
-
-            _playerActionInput = GetComponent<IActionInput>();
         }
 
         private void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+/*            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;*/
 
             _rb.freezeRotation = true;
-        }
-
-        private void OnEnable()
-        {
-            _playerActionInput._onBroomInput += OnBroomChange;
-        }
-
-        private void OnDisable()
-        {
-            _playerActionInput._onBroomInput -= OnBroomChange;
         }
 
         private void FixedUpdate()
         {
             MoveCalculation();
-
+            StopMovement();
             DownwardCalculation();
         }
 
@@ -122,6 +105,19 @@ namespace ProjectWitch.Scripts.Player.Movement
         }
 
         /// <summary>
+        /// To stop the player when there is no move input value.
+        /// </summary>
+        private void StopMovement()
+        {
+            if (_playerMoveInput.MoveInputReader.magnitude == 0.0f && _groundCheck.IsGrounded(_groundLayerMask))
+            {
+                Debug.Log("Got stop " + _rb.velocity);
+
+                _rb.velocity = Vector3.Lerp(_rb.velocity, Vector3.zero, 0.1f);
+            }
+        }
+
+        /// <summary>
         /// To calculate the downward velocity for the player.
         /// </summary>
         private void DownwardCalculation()
@@ -131,14 +127,6 @@ namespace ProjectWitch.Scripts.Player.Movement
             {
                 _rb.AddForce(new Vector3(0.0f, -5.0f * Time.deltaTime, 0.0f), ForceMode.Impulse);
             }
-        }
-
-        /// <summary>
-        /// Change the player from use broom or not.
-        /// </summary>
-        private void OnBroomChange(bool isBroomPressed)
-        {
-            OnPlayerChangeBroom.Invoke(isBroomPressed);
         }
 
         #endregion
