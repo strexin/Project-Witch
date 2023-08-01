@@ -8,9 +8,9 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
     /// <summary>
     /// Implementation of IActionInput for player.
     /// </summary>
-    public class PlayerActionInput : MonoBehaviour, IActionInput
+    public class PlayerFlyingBroomInput : MonoBehaviour, IBroomInput
     {
-        #region IActionInput
+        #region IBroomInput
 
         public bool _onBroomActionPressed { get; set; } = default;
 

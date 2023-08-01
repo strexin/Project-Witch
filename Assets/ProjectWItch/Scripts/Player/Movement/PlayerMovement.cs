@@ -1,5 +1,4 @@
 using ProjectWItch.Scripts.Interfaces;
-using System;
 using UnityEngine;
 
 namespace ProjectWitch.Scripts.Player.Movement
@@ -7,7 +6,7 @@ namespace ProjectWitch.Scripts.Player.Movement
     /// <summary>
     /// Handle the normal movement for player.
     /// </summary>
-    public class PlayerMovement : MonoBehaviour, IMoveData, IPlayerEvent
+    public class PlayerMovement : MonoBehaviour, IMoveData
     {
         #region IMoveData
 
@@ -24,20 +23,17 @@ namespace ProjectWitch.Scripts.Player.Movement
 
         #endregion
 
-        #region IPlayerEvent
-
-        public event Action<float> OnPlayerMove = default;
-
-        public event Action<bool> OnPlayerChangeBroom = default;
-
-        #endregion
-
         #region Variable
 
         /// <summary>
         /// Component that use to calculate the player movement.
         /// </summary>
         private Rigidbody _rb = null;
+
+        /// <summary>
+        /// Condition where the player is using flying broom or not.
+        /// </summary>
+        private bool _isUsingFlyingBroom = default;
 
         /// <summary>
         /// Componnent that use to check ground under the player.
@@ -48,6 +44,11 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// Component that use to check move input that is given by player.
         /// </summary>
         private IMoveInput _playerMoveInput = null;
+
+        /// <summary>
+        /// Component that use to know the player is using flying broom or not.
+        /// </summary>
+        private IBroomInput _broomInput = default;
 
         /// <summary>
         /// The normal ground layer to check if player touch it or not.
@@ -68,6 +69,8 @@ namespace ProjectWitch.Scripts.Player.Movement
             _groundCheck = GetComponent<IGroundCheck>();
 
             _playerMoveInput = GetComponent<IMoveInput>();
+
+            _broomInput = GetComponent<IBroomInput>();
         }
 
         private void Start()
@@ -76,6 +79,16 @@ namespace ProjectWitch.Scripts.Player.Movement
             Cursor.visible = false;*/
 
             _rb.freezeRotation = true;
+        }
+
+        private void OnEnable()
+        {
+            _broomInput._onBroomInput += CheckPlayerUsingFLyingBroom;
+        }
+
+        private void OnDisable()
+        {
+            _broomInput._onBroomInput -= CheckPlayerUsingFLyingBroom;
         }
 
         private void FixedUpdate()
@@ -94,9 +107,7 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// </summary>
         private void MoveCalculation()
         {
-            OnPlayerMove(_playerMoveInput.MoveInputReader.magnitude);
-
-            if (_groundCheck.IsGrounded(_groundLayerMask) && _playerMoveInput.MoveDirection != Vector3.zero)
+            if (_groundCheck.IsGrounded(_groundLayerMask) && _playerMoveInput.MoveDirection != Vector3.zero && !_isUsingFlyingBroom)
             {
                 _rb.velocity = Vector3.ClampMagnitude(_playerMoveInput.MoveDirection * MoveSpeed, MaxVelocity);
 
@@ -109,7 +120,7 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// </summary>
         private void StopMovement()
         {
-            if (_playerMoveInput.MoveInputReader.magnitude == 0.0f && _groundCheck.IsGrounded(_groundLayerMask))
+            if (_playerMoveInput.MoveInputReader.magnitude == 0.0f && _groundCheck.IsGrounded(_groundLayerMask) && !_isUsingFlyingBroom)
             {
                 Debug.Log("Got stop " + _rb.velocity);
 
@@ -122,11 +133,21 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// </summary>
         private void DownwardCalculation()
         {
-
-            if (!_groundCheck.IsGrounded(_groundLayerMask)) 
+            if (!_groundCheck.IsGrounded(_groundLayerMask) && !_isUsingFlyingBroom) 
             {
                 _rb.AddForce(new Vector3(0.0f, -5.0f * Time.deltaTime, 0.0f), ForceMode.Impulse);
             }
+        }
+
+        /// <summary>
+        /// Change the condition is the player using flying broom or not.
+        /// </summary>
+        /// <param name="onBroom">
+        /// Condition of the player is using flying broom or not.
+        /// </param>
+        private void CheckPlayerUsingFLyingBroom(bool onBroom)
+        {
+            _isUsingFlyingBroom = onBroom;
         }
 
         #endregion

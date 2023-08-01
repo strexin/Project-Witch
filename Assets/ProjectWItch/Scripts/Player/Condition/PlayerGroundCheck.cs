@@ -29,7 +29,7 @@ namespace ProjectWitch.Scripts.Player.Condition
         [field: SerializeField]
         public float MaxDistanceCheck { get; set; } = default;
 
-        public bool IsGrounded(LayerMask layer)
+        public virtual bool IsGrounded(LayerMask layer)
         {
             _ray = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), Vector3.down);
 

@@ -16,9 +16,14 @@ namespace ProjectWItch.Scripts.Animation
         private Animator _playerAnimator = null;
 
         /// <summary>
-        /// Component that use to get the event for the player.
+        /// Component that use to know the move input from the player.
         /// </summary>
-        private IPlayerEvent _playerEvent = null;
+        private IMoveInput _moveInput = null;
+
+        /// <summary>
+        /// Component that use to know the player use flying broom or not.
+        /// </summary>
+        private IBroomInput _broomInput = null;
 
         #endregion
 
@@ -26,36 +31,34 @@ namespace ProjectWItch.Scripts.Animation
         {
             _playerAnimator = GetComponent<Animator>();
 
-            _playerEvent = GetComponentInParent<IPlayerEvent>();
+            _moveInput = GetComponentInParent<IMoveInput>();
+
+            _broomInput = GetComponentInParent<IBroomInput>();
+        }
+
+        private void Update()
+        {
+            _playerAnimator.SetFloat("Speed", Mathf.Abs(_moveInput.MoveInputReader.magnitude));
         }
 
         private void OnEnable()
         {
-            _playerEvent.OnPlayerMove += OnPlayerMoveAnimation;
-
-            _playerEvent.OnPlayerChangeBroom += OnPlayerUseBroom;
+            _broomInput._onBroomInput += OnPlayerUseBroom;
         }
 
         private void OnDisable()
         {
-            _playerEvent.OnPlayerMove -= OnPlayerMoveAnimation;
-
-            _playerEvent.OnPlayerChangeBroom -= OnPlayerUseBroom;
+            _broomInput._onBroomInput -= OnPlayerUseBroom;
         }
 
         #region Main
 
         /// <summary>
-        /// Change the value of the move animation based on player input value.
+        /// Change the condition of the animation when player use broom or not.
         /// </summary>
-        /// <param name="speed">
-        /// The speed value that player give when move.
+        /// <param name="useBroom">
+        /// The condition is the player using flying broom or not.
         /// </param>
-        private void OnPlayerMoveAnimation(float speed)
-        {
-            _playerAnimator.SetFloat("Speed", speed);
-        }
-
         private void OnPlayerUseBroom(bool useBroom)
         {
             _playerAnimator.SetBool("OnBroom", useBroom);

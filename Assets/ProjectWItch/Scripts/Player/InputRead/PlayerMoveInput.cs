@@ -1,7 +1,4 @@
 using ProjectWItch.Scripts.Interfaces;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ProjectWitch.Scripts.Player.Movement.InputRead
