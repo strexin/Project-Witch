@@ -10813,6 +10813,7 @@ GameObject:
   - component: {fileID: 1431725255}
   - component: {fileID: 1431725260}
   - component: {fileID: 1431725257}
+  - component: {fileID: 1431725261}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -10957,9 +10958,20 @@ MonoBehaviour:
   <MoveSpeed>k__BackingField: 6
   <RotationSpeed>k__BackingField: 8
   <MaxVelocity>k__BackingField: 6
-  _groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 8
+--- !u!114 &1431725261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431725251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9295577b5044e4f92ba02f1f1cb417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MaxMana>k__BackingField: 100
+  <CurrentMana>k__BackingField: 0
 --- !u!1001 &1437873985
 PrefabInstance:
   m_ObjectHideFlags: 0

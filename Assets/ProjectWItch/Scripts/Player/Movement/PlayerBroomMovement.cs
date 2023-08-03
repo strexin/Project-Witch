@@ -1,10 +1,11 @@
 using ProjectWItch.Scripts.Interfaces;
+using System;
 using System.Collections;
 using UnityEngine;
 
 namespace ProjectWitch.Scripts.Player.Movement
 {
-    public class PlayerBroomMovement : MonoBehaviour, IMoveData
+    public class PlayerBroomMovement : MonoBehaviour, IMoveData, IBroomEvent
     {
         #region IMoveData
 
@@ -21,6 +22,12 @@ namespace ProjectWitch.Scripts.Player.Movement
 
         #endregion
 
+        #region IBroomEvent
+
+        public event Action OnUsingFlyingBroom = null;
+
+        #endregion
+
         #region Variable
 
         /// <summary>
@@ -34,11 +41,6 @@ namespace ProjectWitch.Scripts.Player.Movement
         private bool _isUsingFlyingBroom = default;
 
         /// <summary>
-        /// Componnent that use to check ground under the player.
-        /// </summary>
-        private IGroundCheck _groundCheck = null;
-
-        /// <summary>
         /// Component that use to check move input that is given by player.
         /// </summary>
         private IMoveInput _playerMoveInput = null;
@@ -49,12 +51,9 @@ namespace ProjectWitch.Scripts.Player.Movement
         private IBroomInput _broomInput = default;
 
         /// <summary>
-        /// The normal ground layer to check if player touch it or not.
+        /// Component that use to check player's mana.
         /// </summary>
-        [Header("Layer")]
-
-        [SerializeField]
-        private LayerMask _groundLayerMask = default;
+        private IMana _playerMana = null;
 
         #endregion
 
@@ -64,11 +63,11 @@ namespace ProjectWitch.Scripts.Player.Movement
         {
             _rb = GetComponent<Rigidbody>();
 
-            _groundCheck = GetComponent<IGroundCheck>();
-
             _playerMoveInput = GetComponent<IMoveInput>();
 
             _broomInput = GetComponent<IBroomInput>();
+
+            _playerMana = GetComponent<IMana>();
         }
 
         private void Start()
@@ -87,6 +86,11 @@ namespace ProjectWitch.Scripts.Player.Movement
         private void OnDisable()
         {
             _broomInput._onBroomInput -= CheckPlayerUsingFLyingBroom;
+        }
+
+        private void Update()
+        {
+            DecreaseManaEvent();
         }
 
         private void FixedUpdate()
@@ -119,8 +123,6 @@ namespace ProjectWitch.Scripts.Player.Movement
         {
             if (_playerMoveInput.MoveInputReader.magnitude == 0.0f && _isUsingFlyingBroom)
             {
-                Debug.Log("Got stop " + _rb.velocity);
-
                 _rb.velocity = Vector3.Lerp(_rb.velocity, Vector3.zero, 0.1f);
             }
         }
@@ -137,9 +139,18 @@ namespace ProjectWitch.Scripts.Player.Movement
             {
                 transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, 3.0f, 0.01f), transform.position.z);
 
-                Debug.Log("Upward");
-
                 yield return new WaitForEndOfFrame();
+            }
+        }
+
+        /// <summary>
+        /// Send event when the player using flying broom to decrease the mana.
+        /// </summary>
+        private void DecreaseManaEvent()
+        {
+            if (_isUsingFlyingBroom && _playerMana.CurrentMana > 0)
+            {
+                OnUsingFlyingBroom.Invoke();
             }
         }
 
