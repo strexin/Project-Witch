@@ -12,7 +12,7 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
     {
         #region IBroomInput
 
-        public bool _onBroomActionPressed { get; set; } = default;
+        public bool _playerOnFlyingBroom { get; set; } = default;
 
         public event Action<bool> _onBroomInput = null;
 
@@ -25,6 +25,11 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
         /// </summary>
         PlayerInputActions _playerInputAction = null;
 
+        /// <summary>
+        /// Component that use to get the current player's mana.
+        /// </summary>
+        private IMana _playerMana = null;
+
         #endregion
 
         #region Mono
@@ -32,6 +37,8 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
         private void Awake()
         {
             _playerInputAction = new PlayerInputActions();
+
+            _playerMana = GetComponent<IMana>();
         }
 
         private void OnEnable()
@@ -39,6 +46,8 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
             _playerInputAction.Player.Enable();
 
             _playerInputAction.Player.Broom.performed += OnBroomActionIsPressed;
+
+            _playerMana.OnManaDepleted += OnManaDepleted;
         }
 
         private void OnDisable()
@@ -46,6 +55,9 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
             _playerInputAction.Player.Disable();
 
             _playerInputAction.Player.Broom.performed -= OnBroomActionIsPressed;
+
+            _playerMana.OnManaDepleted -= OnManaDepleted;
+
         }
 
         #endregion
@@ -60,17 +72,27 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
         /// </param>
         private void OnBroomActionIsPressed(InputAction.CallbackContext context)
         {
-            if (_onBroomActionPressed)
+            if (!_playerOnFlyingBroom && _playerMana.CurrentMana > 0)
             {
-                _onBroomActionPressed = false;
+                _playerOnFlyingBroom = true;
 
-                _onBroomInput.Invoke(_onBroomActionPressed);
+                _onBroomInput.Invoke(_playerOnFlyingBroom);
             } else
             {
-                _onBroomActionPressed = true;
+                _playerOnFlyingBroom = false;
 
-                _onBroomInput.Invoke(_onBroomActionPressed);
+                _onBroomInput.Invoke(_playerOnFlyingBroom);
             }
+        }
+
+        /// <summary>
+        /// Change the player condition to normal when mana depleted.
+        /// </summary>
+        private void OnManaDepleted()
+        {
+            _playerOnFlyingBroom = false;
+
+            _onBroomInput.Invoke(_playerOnFlyingBroom);
         }
 
         #endregion

@@ -122,8 +122,6 @@ namespace ProjectWitch.Scripts.Player.Movement
         {
             if (_playerMoveInput.MoveInputReader.magnitude == 0.0f && _groundCheck.IsGrounded(_groundLayerMask) && !_isUsingFlyingBroom)
             {
-                Debug.Log("Got stop " + _rb.velocity);
-
                 _rb.velocity = Vector3.Lerp(_rb.velocity, Vector3.zero, 0.1f);
             }
         }

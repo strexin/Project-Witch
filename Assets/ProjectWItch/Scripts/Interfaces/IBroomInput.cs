@@ -10,7 +10,7 @@ namespace ProjectWItch.Scripts.Interfaces
         /// <summary>
         /// Checking if the broom action is pressed or not.
         /// </summary>
-        bool _onBroomActionPressed { get; set; }
+        bool _playerOnFlyingBroom { get; set; }
 
         /// <summary>
         /// An event that is use when player pressed the broom input.
