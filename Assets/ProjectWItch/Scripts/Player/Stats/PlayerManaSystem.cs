@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.ProjectWItch.Scripts.Player.Stats
 {
+    /// <summary>
+    /// Implementation of IMana for player.
+    /// </summary>
     public class PlayerManaSystem : MonoBehaviour, IMana
     {
         #region IMana

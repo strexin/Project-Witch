@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace ProjectWitch.Scripts.Player.Movement
 {
+    /// <summary>
+    /// Handle the flying broom movement for player.
+    /// </summary>
     public class PlayerBroomMovement : MonoBehaviour, IMoveData, IBroomEvent
     {
         #region IMoveData
