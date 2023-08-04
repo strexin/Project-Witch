@@ -19,6 +19,8 @@ namespace Assets.ProjectWItch.Scripts.Player.Stats
 
         public event Action OnManaDepleted = null;
 
+        public event Action<float> OnManaChanged = null;
+
         #endregion
 
         #region Variable
@@ -64,6 +66,8 @@ namespace Assets.ProjectWItch.Scripts.Player.Stats
             CurrentMana -= 10.0f * Time.deltaTime;
 
             CurrentMana = Mathf.Clamp(CurrentMana, 0, MaxMana);
+
+            OnManaChanged?.Invoke(CurrentMana);
 
             if (CurrentMana <= 0)
             {

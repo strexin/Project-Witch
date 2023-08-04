@@ -21,5 +21,10 @@ namespace ProjectWItch.Scripts.Interfaces
         /// Event that called when the current player's mana is depleted.
         /// </summary>
         event Action OnManaDepleted;
+
+        /// <summary>
+        /// Event that called every time there is a change in mana value.
+        /// </summary>
+        event Action<float> OnManaChanged;
     }
 }
