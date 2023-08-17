@@ -83,12 +83,12 @@ namespace ProjectWitch.Scripts.Player.Movement
 
         private void OnEnable()
         {
-            _broomInput._onBroomInput += CheckPlayerUsingFLyingBroom;
+            _broomInput.OnBroomInput += CheckPlayerUsingFLyingBroom;
         }
 
         private void OnDisable()
         {
-            _broomInput._onBroomInput -= CheckPlayerUsingFLyingBroom;
+            _broomInput.OnBroomInput -= CheckPlayerUsingFLyingBroom;
         }
 
         private void FixedUpdate()
