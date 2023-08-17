@@ -12,9 +12,9 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
     {
         #region IBroomInput
 
-        public bool _playerOnFlyingBroom { get; set; } = default;
+        public bool PlayerOnFlyingBroom { get; set; } = default;
 
-        public event Action<bool> _onBroomInput = null;
+        public event Action<bool> OnBroomInput = null;
 
         #endregion
 
@@ -23,7 +23,7 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
         /// <summary>
         /// Component that use for reading the action input from player.
         /// </summary>
-        PlayerInputActions _playerInputAction = null;
+        private PlayerInputActions _playerInputActions = null;
 
         /// <summary>
         /// Component that use to get the current player's mana.
@@ -36,25 +36,25 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
 
         private void Awake()
         {
-            _playerInputAction = new PlayerInputActions();
+            _playerInputActions = new PlayerInputActions();
 
             _playerMana = GetComponent<IMana>();
         }
 
         private void OnEnable()
         {
-            _playerInputAction.Player.Enable();
+            _playerInputActions.Player.Enable();
 
-            _playerInputAction.Player.Broom.performed += OnBroomActionIsPressed;
+            _playerInputActions.Player.Broom.performed += OnBroomActionIsPressed;
 
             _playerMana.OnManaDepleted += OnManaDepleted;
         }
 
         private void OnDisable()
         {
-            _playerInputAction.Player.Disable();
+            _playerInputActions.Player.Disable();
 
-            _playerInputAction.Player.Broom.performed -= OnBroomActionIsPressed;
+            _playerInputActions.Player.Broom.performed -= OnBroomActionIsPressed;
 
             _playerMana.OnManaDepleted -= OnManaDepleted;
 
@@ -72,16 +72,16 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
         /// </param>
         private void OnBroomActionIsPressed(InputAction.CallbackContext context)
         {
-            if (!_playerOnFlyingBroom && _playerMana.CurrentMana > 0)
+            if (!PlayerOnFlyingBroom && _playerMana.CurrentMana > 0)
             {
-                _playerOnFlyingBroom = true;
+                PlayerOnFlyingBroom = true;
 
-                _onBroomInput.Invoke(_playerOnFlyingBroom);
+                OnBroomInput.Invoke(PlayerOnFlyingBroom);
             } else
             {
-                _playerOnFlyingBroom = false;
+                PlayerOnFlyingBroom = false;
 
-                _onBroomInput.Invoke(_playerOnFlyingBroom);
+                OnBroomInput.Invoke(PlayerOnFlyingBroom);
             }
         }
 
@@ -90,9 +90,9 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
         /// </summary>
         private void OnManaDepleted()
         {
-            _playerOnFlyingBroom = false;
+            PlayerOnFlyingBroom = false;
 
-            _onBroomInput.Invoke(_playerOnFlyingBroom);
+            OnBroomInput.Invoke(PlayerOnFlyingBroom);
         }
 
         #endregion

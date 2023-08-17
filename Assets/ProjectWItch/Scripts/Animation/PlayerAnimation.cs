@@ -43,12 +43,12 @@ namespace ProjectWItch.Scripts.Animation
 
         private void OnEnable()
         {
-            _broomInput._onBroomInput += OnPlayerUseBroom;
+            _broomInput.OnBroomInput += OnPlayerUseBroom;
         }
 
         private void OnDisable()
         {
-            _broomInput._onBroomInput -= OnPlayerUseBroom;
+            _broomInput.OnBroomInput -= OnPlayerUseBroom;
         }
 
         #region Main
