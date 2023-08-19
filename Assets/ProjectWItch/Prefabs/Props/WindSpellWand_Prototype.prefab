@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2969772118063307922}
   - component: {fileID: 1155356135243103809}
   - component: {fileID: 2643468213222453924}
+  - component: {fileID: -7347278569359800986}
   m_Layer: 0
   m_Name: WindSpellWand_Prototype
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-7347278569359800986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976847442711127719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b8d60e1c90a06848b5e1e3eef50fce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <SpellElement>k__BackingField: Wind
+  <SpellPrefab>k__BackingField: {fileID: 975634931669573444, guid: 05f485544208b264bac9a7ff196377ce, type: 3}

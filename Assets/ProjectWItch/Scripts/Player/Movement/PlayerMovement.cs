@@ -56,7 +56,7 @@ namespace ProjectWitch.Scripts.Player.Movement
         [Header("Layer")]
 
         [SerializeField]
-        private LayerMask _groundLayerMask = default;
+        private LayerMask groundLayerMask = default;
 
         #endregion
 
@@ -83,12 +83,12 @@ namespace ProjectWitch.Scripts.Player.Movement
 
         private void OnEnable()
         {
-            _broomInput.OnBroomInput += CheckPlayerUsingFLyingBroom;
+            _broomInput.OnBroomPressed += CheckPlayerUsingFLyingBroom;
         }
 
         private void OnDisable()
         {
-            _broomInput.OnBroomInput -= CheckPlayerUsingFLyingBroom;
+            _broomInput.OnBroomPressed -= CheckPlayerUsingFLyingBroom;
         }
 
         private void FixedUpdate()
@@ -107,7 +107,7 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// </summary>
         private void MoveCalculation()
         {
-            if (_groundCheck.IsGrounded(_groundLayerMask) && _playerMoveInput.MoveDirection != Vector3.zero && !_isUsingFlyingBroom)
+            if (_groundCheck.IsGrounded(groundLayerMask) && _playerMoveInput.MoveDirection != Vector3.zero && !_isUsingFlyingBroom)
             {
                 _rb.velocity = Vector3.ClampMagnitude(_playerMoveInput.MoveDirection * MoveSpeed, MaxVelocity);
 
@@ -120,7 +120,7 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// </summary>
         private void StopMovement()
         {
-            if (_playerMoveInput.MoveInputReader.magnitude == 0.0f && _groundCheck.IsGrounded(_groundLayerMask) && !_isUsingFlyingBroom)
+            if (_playerMoveInput.MoveInputReader.magnitude == 0.0f && _groundCheck.IsGrounded(groundLayerMask) && !_isUsingFlyingBroom)
             {
                 _rb.velocity = Vector3.Lerp(_rb.velocity, Vector3.zero, 0.1f);
             }
@@ -131,7 +131,7 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// </summary>
         private void DownwardCalculation()
         {
-            if (!_groundCheck.IsGrounded(_groundLayerMask) && !_isUsingFlyingBroom) 
+            if (!_groundCheck.IsGrounded(groundLayerMask) && !_isUsingFlyingBroom) 
             {
                 _rb.AddForce(new Vector3(0.0f, -5.0f * Time.deltaTime, 0.0f), ForceMode.Impulse);
             }

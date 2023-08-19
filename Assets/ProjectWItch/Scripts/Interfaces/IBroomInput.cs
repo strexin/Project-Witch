@@ -15,6 +15,6 @@ namespace ProjectWItch.Scripts.Interfaces
         /// <summary>
         /// An event that is use when player pressed the broom input.
         /// </summary>
-        event Action<bool> OnBroomInput;
+        event Action<bool> OnBroomPressed;
     }
 }

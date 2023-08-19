@@ -18,7 +18,7 @@ namespace ProjectWitch.Scripts.Player.UI
         /// </summary>
         [Header("References")]
         [field: SerializeField]
-        private PlayerManaSystem _playerManaSystem = null;
+        private PlayerManaSystem playerManaSystem = null;
 
         /// <summary>
         /// Component that use to update the player's mana value in UI.
@@ -39,7 +39,7 @@ namespace ProjectWitch.Scripts.Player.UI
         {
             _manaUIValue = GetComponent<Slider>();
 
-            _playerMana = _playerManaSystem.GetComponent<IMana>();
+            _playerMana = playerManaSystem.GetComponent<IMana>();
         }
 
         private void Start()

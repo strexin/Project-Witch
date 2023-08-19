@@ -25,6 +25,11 @@ namespace ProjectWItch.Scripts.Animation
         /// </summary>
         private IBroomInput _broomInput = null;
 
+        /// <summary>
+        /// Component that use to know when the player pressed action input.
+        /// </summary>
+        private IActionInput _actionInput = null;
+
         #endregion
 
         private void Awake()
@@ -34,6 +39,8 @@ namespace ProjectWItch.Scripts.Animation
             _moveInput = GetComponentInParent<IMoveInput>();
 
             _broomInput = GetComponentInParent<IBroomInput>();
+
+            _actionInput = GetComponentInParent<IActionInput>();
         }
 
         private void Update()
@@ -43,12 +50,16 @@ namespace ProjectWItch.Scripts.Animation
 
         private void OnEnable()
         {
-            _broomInput.OnBroomInput += OnPlayerUseBroom;
+            _broomInput.OnBroomPressed += OnPlayerUseBroom;
+
+            _actionInput.OnActionPressed += OnPlayerPressedAction;
         }
 
         private void OnDisable()
         {
-            _broomInput.OnBroomInput -= OnPlayerUseBroom;
+            _broomInput.OnBroomPressed -= OnPlayerUseBroom;
+
+            _actionInput.OnActionPressed -= OnPlayerPressedAction;
         }
 
         #region Main
@@ -62,6 +73,14 @@ namespace ProjectWItch.Scripts.Animation
         private void OnPlayerUseBroom(bool useBroom)
         {
             _playerAnimator.SetBool("OnBroom", useBroom);
+        }
+
+        /// <summary>
+        /// Play the animation of player using spell when pressed action input.
+        /// </summary>
+        private void OnPlayerPressedAction()
+        {
+            _playerAnimator.SetTrigger("Spell");
         }
 
         #endregion

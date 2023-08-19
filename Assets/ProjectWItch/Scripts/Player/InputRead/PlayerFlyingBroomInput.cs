@@ -14,7 +14,7 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
 
         public bool PlayerOnFlyingBroom { get; set; } = default;
 
-        public event Action<bool> OnBroomInput = null;
+        public event Action<bool> OnBroomPressed = null;
 
         #endregion
 
@@ -76,12 +76,12 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
             {
                 PlayerOnFlyingBroom = true;
 
-                OnBroomInput.Invoke(PlayerOnFlyingBroom);
+                OnBroomPressed.Invoke(PlayerOnFlyingBroom);
             } else
             {
                 PlayerOnFlyingBroom = false;
 
-                OnBroomInput.Invoke(PlayerOnFlyingBroom);
+                OnBroomPressed.Invoke(PlayerOnFlyingBroom);
             }
         }
 
@@ -92,7 +92,7 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
         {
             PlayerOnFlyingBroom = false;
 
-            OnBroomInput.Invoke(PlayerOnFlyingBroom);
+            OnBroomPressed.Invoke(PlayerOnFlyingBroom);
         }
 
         #endregion
