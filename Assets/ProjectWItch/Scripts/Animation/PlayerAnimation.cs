@@ -30,10 +30,17 @@ namespace ProjectWItch.Scripts.Animation
         /// </summary>
         private IActionInput _actionInput = null;
 
+        /// <summary>
+        /// Component that use to get the player input action.
+        /// </summary>
+        private PlayerInputActions _playerInputActions = null;
+
         #endregion
 
         private void Awake()
         {
+            _playerInputActions = new PlayerInputActions();
+
             _playerAnimator = GetComponent<Animator>();
 
             _moveInput = GetComponentInParent<IMoveInput>();
@@ -81,6 +88,22 @@ namespace ProjectWItch.Scripts.Animation
         private void OnPlayerPressedAction()
         {
             _playerAnimator.SetTrigger("Spell");
+        }
+
+        /// <summary>
+        /// Make player cannot move by disable the move input.
+        /// </summary>
+        public void DisablePlayerMove()
+        {
+            _playerInputActions.Player.Disable();
+        }
+
+        /// <summary>
+        /// Make player can move by enable the move input.
+        /// </summary>
+        public void EnablePlayerMove()
+        {
+            _playerInputActions.Player.Enable();
         }
 
         #endregion
