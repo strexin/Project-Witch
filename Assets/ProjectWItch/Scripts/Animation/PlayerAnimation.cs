@@ -31,16 +31,14 @@ namespace ProjectWItch.Scripts.Animation
         private IActionInput _actionInput = null;
 
         /// <summary>
-        /// Component that use to get the player input action.
+        /// Component that use to get the player move input action.
         /// </summary>
-        private PlayerInputActions _playerInputActions = null;
+        private PlayerInputActions _playerMoveInput = null;
 
         #endregion
 
         private void Awake()
         {
-            _playerInputActions = new PlayerInputActions();
-
             _playerAnimator = GetComponent<Animator>();
 
             _moveInput = GetComponentInParent<IMoveInput>();
@@ -48,6 +46,11 @@ namespace ProjectWItch.Scripts.Animation
             _broomInput = GetComponentInParent<IBroomInput>();
 
             _actionInput = GetComponentInParent<IActionInput>();
+        }
+
+        private void Start()
+        {
+            _playerMoveInput = _moveInput.PlayerInputActions;
         }
 
         private void Update()
@@ -95,7 +98,7 @@ namespace ProjectWItch.Scripts.Animation
         /// </summary>
         public void DisablePlayerMove()
         {
-            _playerInputActions.Player.Disable();
+            _playerMoveInput.Player.Disable();
         }
 
         /// <summary>
@@ -103,7 +106,7 @@ namespace ProjectWItch.Scripts.Animation
         /// </summary>
         public void EnablePlayerMove()
         {
-            _playerInputActions.Player.Enable();
+            _playerMoveInput.Player.Enable();
         }
 
         #endregion

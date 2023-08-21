@@ -16,5 +16,10 @@ namespace ProjectWItch.Scripts.Interfaces
         /// The direction where the player will move based on the input.
         /// </summary>
         Vector3 MoveDirection { get; set; }
+
+        /// <summary>
+        /// An input action for player.
+        /// </summary>
+        PlayerInputActions PlayerInputActions { get; set; }
     }
 }

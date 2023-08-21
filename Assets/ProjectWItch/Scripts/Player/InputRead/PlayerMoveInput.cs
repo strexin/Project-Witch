@@ -12,15 +12,7 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
 
         public Vector2 MoveInputReader { get; set; } = default;
         public Vector3 MoveDirection { get; set; } = default;
-
-        #endregion
-
-        #region Variable
-
-        /// <summary>
-        /// An input action for player.
-        /// </summary>
-        private PlayerInputActions _playerInputAction = null;
+        public PlayerInputActions PlayerInputActions { get; set; }
 
         #endregion
 
@@ -28,22 +20,22 @@ namespace ProjectWitch.Scripts.Player.Movement.InputRead
 
         private void Awake()
         {
-            _playerInputAction = new PlayerInputActions();
+            PlayerInputActions = new PlayerInputActions();
         }
 
         private void OnEnable()
         {
-            _playerInputAction.Player.Enable();
+            PlayerInputActions.Player.Enable();
         }
 
         private void OnDisable()
         {
-            _playerInputAction.Player.Disable();
+            PlayerInputActions.Player.Disable();
         }
 
         private void Update()
         {
-            MoveInputReader = _playerInputAction.Player.Move.ReadValue<Vector2>();
+            MoveInputReader = PlayerInputActions.Player.Move.ReadValue<Vector2>();
         }
 
         private void FixedUpdate()
