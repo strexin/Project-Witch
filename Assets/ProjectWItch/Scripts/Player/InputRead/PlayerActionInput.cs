@@ -34,6 +34,11 @@ namespace Assets.ProjectWItch.Scripts.Player.InputRead
         /// </summary>
         private IEquip _playerEquip = null;
 
+        /// <summary>
+        /// Component that use to get invoke by event on animation.
+        /// </summary>
+        private IAnimationEvent _animationEvent = null;
+
         #endregion
 
         #region Mono
@@ -43,6 +48,8 @@ namespace Assets.ProjectWItch.Scripts.Player.InputRead
             _playerInputActions = new PlayerInputActions();
 
             _playerEquip = GetComponent<IEquip>();
+
+            _animationEvent = GetComponentInChildren<IAnimationEvent>();
         }
 
         private void OnEnable()
@@ -50,6 +57,8 @@ namespace Assets.ProjectWItch.Scripts.Player.InputRead
             _playerInputActions.Player.Enable();
 
             _playerInputActions.Player.Action.performed += OnActionInputPressed;
+
+            _animationEvent.OnAttackPose += SpawnSpell;
         }
 
         private void OnDisable()
@@ -57,6 +66,8 @@ namespace Assets.ProjectWItch.Scripts.Player.InputRead
             _playerInputActions.Player.Disable();
 
             _playerInputActions.Player.Action.performed -= OnActionInputPressed;
+
+            _animationEvent.OnAttackPose -= SpawnSpell;
         }
 
         #endregion
@@ -72,8 +83,14 @@ namespace Assets.ProjectWItch.Scripts.Player.InputRead
         private void OnActionInputPressed(InputAction.CallbackContext context)
         {
             OnActionPressed.Invoke();
+        }
 
-            if (_playerEquip.ItemEquipped.GetComponent<IMagicWand>() != null )
+        /// <summary>
+        /// Called by event to spawn spell when player at strike pose.
+        /// </summary>
+        private void SpawnSpell()
+        {
+            if (_playerEquip.ItemEquipped.GetComponent<IMagicWand>() != null)
             {
                 Instantiate(_playerEquip.ItemEquipped.GetComponent<IMagicWand>().SpellPrefab, shotPoint.position, gameObject.transform.rotation);
             }

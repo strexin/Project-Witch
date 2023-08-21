@@ -1,4 +1,5 @@
 using ProjectWItch.Scripts.Interfaces;
+using System;
 using UnityEngine;
 
 namespace ProjectWItch.Scripts.Animation
@@ -6,8 +7,14 @@ namespace ProjectWItch.Scripts.Animation
     /// <summary>
     /// Handle the player animator.
     /// </summary>
-    public class PlayerAnimation : MonoBehaviour
+    public class PlayerAnimation : MonoBehaviour, IAnimationEvent
     {
+        #region IAnimationEvent
+
+        public event Action OnAttackPose = null;
+
+        #endregion
+
         #region Variable
 
         /// <summary>
@@ -107,6 +114,11 @@ namespace ProjectWItch.Scripts.Animation
         public void EnablePlayerMove()
         {
             _playerMoveInput.Player.Enable();
+        }
+
+        public void SpawnSpell()
+        {
+            OnAttackPose.Invoke();
         }
 
         #endregion
