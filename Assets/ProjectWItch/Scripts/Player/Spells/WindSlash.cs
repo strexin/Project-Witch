@@ -56,6 +56,11 @@ namespace ProjectWitch.Scripts.Player.Spells
 
         private void OnTriggerEnter(Collider other)
         {
+            if (other.gameObject.GetComponent<IBlowable>()  != null)
+            {
+                other.gameObject.GetComponent<IBlowable>().GetBlow();
+            }
+
             if (other.gameObject.GetComponent<IBurnable>() != null)
             {
                 var burnObject = other.gameObject.GetComponent<IBurnable>();
