@@ -140,7 +140,7 @@ namespace ProjectWitch.Scripts.Player.Movement
         {
             while (_isUsingFlyingBroom && transform.position.y != 2.0f)
             {
-                transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, 3.0f, 0.01f), transform.position.z);
+                transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, 3.0f, 0.1f), transform.position.z);
 
                 yield return new WaitForEndOfFrame();
             }
