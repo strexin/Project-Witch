@@ -55,9 +55,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Action"",
+                    ""name"": ""Use"",
                     ""type"": ""Button"",
                     ""id"": ""e27857c2-a8c7-4d55-82eb-26668948b3d6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""Button"",
+                    ""id"": ""a1bde2b7-da7b-469f-a753-914af5263784"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -189,7 +198,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e3c758bd-5987-4e7e-900b-faf80db318f7"",
-                    ""path"": ""<Keyboard>/x"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -200,6 +209,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""964f5528-c141-42aa-8785-dc6db5db5908"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b019e97c-43de-49fa-b998-a3001aacf6b7"",
                     ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -218,6 +238,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Broom = m_Player.FindAction("Broom", throwIfNotFound: true);
         m_Player_ChangeItem = m_Player.FindAction("ChangeItem", throwIfNotFound: true);
+        m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
         m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
     }
 
@@ -283,6 +304,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Broom;
     private readonly InputAction m_Player_ChangeItem;
+    private readonly InputAction m_Player_Use;
     private readonly InputAction m_Player_Action;
     public struct PlayerActions
     {
@@ -291,6 +313,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Broom => m_Wrapper.m_Player_Broom;
         public InputAction @ChangeItem => m_Wrapper.m_Player_ChangeItem;
+        public InputAction @Use => m_Wrapper.m_Player_Use;
         public InputAction @Action => m_Wrapper.m_Player_Action;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -310,6 +333,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ChangeItem.started += instance.OnChangeItem;
             @ChangeItem.performed += instance.OnChangeItem;
             @ChangeItem.canceled += instance.OnChangeItem;
+            @Use.started += instance.OnUse;
+            @Use.performed += instance.OnUse;
+            @Use.canceled += instance.OnUse;
             @Action.started += instance.OnAction;
             @Action.performed += instance.OnAction;
             @Action.canceled += instance.OnAction;
@@ -326,6 +352,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ChangeItem.started -= instance.OnChangeItem;
             @ChangeItem.performed -= instance.OnChangeItem;
             @ChangeItem.canceled -= instance.OnChangeItem;
+            @Use.started -= instance.OnUse;
+            @Use.performed -= instance.OnUse;
+            @Use.canceled -= instance.OnUse;
             @Action.started -= instance.OnAction;
             @Action.performed -= instance.OnAction;
             @Action.canceled -= instance.OnAction;
@@ -351,6 +380,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnBroom(InputAction.CallbackContext context);
         void OnChangeItem(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
     }
 }

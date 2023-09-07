@@ -24,6 +24,12 @@ namespace ProjectWItch.Scripts.Environments
         private GameObject fireEffect = null;
 
         /// <summary>
+        /// Prefab that spawn smoke when thorn fully burned.
+        /// </summary>
+        [SerializeField]
+        private GameObject smokeEndEffect = null;
+
+        /// <summary>
         /// Token that use to cancel the task when the object is disabled.
         /// </summary>
         private CancellationTokenSource _cancellationTokenSource = null;
@@ -46,7 +52,7 @@ namespace ProjectWItch.Scripts.Environments
             {
                 RaycastHit hit;
 
-                if (Physics.Raycast(r, out hit, 2.0f))
+                if (Physics.Raycast(r, out hit, 1.5f))
                 {
                     if (hit.transform.GetComponent<IBurnable>() != null)
                     {
@@ -54,13 +60,15 @@ namespace ProjectWItch.Scripts.Environments
                         {
                             Debug.Log("Found others");
 
-                            hit.transform.GetComponent<IBurnable>().GetBurn();
+                            await hit.transform.GetComponent<IBurnable>().GetBurn();
                         }
                     }
                 }
             }
 
             await Task.Delay(4000, _cancellationTokenSource.Token);
+
+            Instantiate(smokeEndEffect, transform.position, Quaternion.identity);
 
             Destroy(gameObject);
         }

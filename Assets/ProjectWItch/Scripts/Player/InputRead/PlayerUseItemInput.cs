@@ -8,7 +8,7 @@ namespace Assets.ProjectWItch.Scripts.Player.InputRead
     /// <summary>
     /// Implementation of IActionInput for player.
     /// </summary>
-    public class PlayerActionInput : MonoBehaviour, IActionInput
+    public class PlayerUseItemInput : MonoBehaviour, IActionInput
     {
         #region IActionInput
 
@@ -56,7 +56,7 @@ namespace Assets.ProjectWItch.Scripts.Player.InputRead
         {
             _playerInputActions.Player.Enable();
 
-            _playerInputActions.Player.Action.performed += OnActionInputPressed;
+            _playerInputActions.Player.Use.performed += OnActionInputPressed;
 
             _animationEvent.OnAttackPose += SpawnSpell;
         }
@@ -65,7 +65,7 @@ namespace Assets.ProjectWItch.Scripts.Player.InputRead
         {
             _playerInputActions.Player.Disable();
 
-            _playerInputActions.Player.Action.performed -= OnActionInputPressed;
+            _playerInputActions.Player.Use.performed -= OnActionInputPressed;
 
             _animationEvent.OnAttackPose -= SpawnSpell;
         }
