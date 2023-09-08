@@ -12,7 +12,7 @@ namespace ProjectWItch.Scripts.Items
 
         public void Interact()
         {
-            Debug.Log("You interact with mushroom");
+            Debug.Log("You interact with mushroom " + gameObject.name);
         }
 
         #endregion

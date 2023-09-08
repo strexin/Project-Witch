@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 
 namespace ProjectWitch.Scripts.Player.Gameplay
 {
+    /// <summary>
+    /// Handle when the player interact with items.
+    /// </summary>
     public class PlayerInteract : MonoBehaviour
     {
         #region Variable
@@ -50,6 +53,11 @@ namespace ProjectWitch.Scripts.Player.Gameplay
         {
             if (other.gameObject.GetComponent<IInteractable>() != null)
             {
+                if (other.gameObject.GetComponentInChildren<Outline>() != null)
+                {
+                    other.gameObject.GetComponentInChildren<Outline>().enabled = true;
+                }
+
                 _interactable = other.gameObject.GetComponent<IInteractable>();
 
                 _canInteract = true;
@@ -60,6 +68,11 @@ namespace ProjectWitch.Scripts.Player.Gameplay
         {
             if (other.gameObject.GetComponent<IInteractable>() != null)
             {
+                if (other.gameObject.GetComponentInChildren<Outline>() != null)
+                {
+                    other.gameObject.GetComponentInChildren<Outline>().enabled = false;
+                }
+
                 _interactable = null;
 
                 _canInteract = false;
