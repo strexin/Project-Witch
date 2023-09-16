@@ -39,19 +39,21 @@ namespace ProjectWitch.Scripts.Player.Gameplay
         {
             _playerInputActions.Enable();
 
-            _playerInputActions.Player.Action.performed += NearInteractable;
+            _playerInputActions.Player.Action.performed += Interacting;
         }
 
         private void OnDisable()
         {
             _playerInputActions.Disable();
 
-            _playerInputActions.Player.Action.performed -= NearInteractable;
+            _playerInputActions.Player.Action.performed -= Interacting;
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.GetComponent<IInteractable>() != null)
+            var interactable = other.gameObject.GetComponent<IInteractable>();
+
+            if (interactable != null)
             {
                 if (other.gameObject.GetComponentInChildren<Outline>() != null)
                 {
@@ -89,7 +91,7 @@ namespace ProjectWitch.Scripts.Player.Gameplay
         /// <param name="context">
         /// input action context for player input.
         /// </param>
-        private void NearInteractable(InputAction.CallbackContext context)
+        private void Interacting(InputAction.CallbackContext context)
         {
             if (_canInteract && _interactable != null)
             {
