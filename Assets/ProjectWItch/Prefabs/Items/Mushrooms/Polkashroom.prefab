@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3046624900871618060}
   - component: {fileID: 73277039118620171}
   m_Layer: 0
-  m_Name: Mushroom First
+  m_Name: Polkashroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,8 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2789345d62e8b984c845849997f1be52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryObject: {fileID: 0}
-  item: {fileID: 0}
+  inventoryObject: {fileID: 11400000, guid: 7f496dcb39c75a849b5f1b49d6bb376f, type: 2}
+  item: {fileID: 11400000, guid: 8798c972f739a0a4ca81d9314775fbe6, type: 2}
 --- !u!1001 &1121223879848174647
 PrefabInstance:
   m_ObjectHideFlags: 0
