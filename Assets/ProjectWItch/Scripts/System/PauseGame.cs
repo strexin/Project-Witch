@@ -32,16 +32,13 @@ namespace ProjectWitch.Scripts.System
 
         private void Awake()
         {
+            pauseMenuPanel.SetActive(false);
+
             _playerInputActions = new PlayerInputActions();
 
             _playerInputActions.System.Enable();
 
             _playerInputActions.System.Pause.performed += ShowOrClosePauseMenu;
-        }
-
-        private void Start()
-        {
-            pauseMenuPanel.SetActive(false);
         }
 
         private void OnDestroy()

@@ -7,7 +7,7 @@ public class InventoryObject : ScriptableObject
 {
     public List<InventorySlot> container = new List<InventorySlot>();
 
-    public void AddItem(ItemObject item, int amount)
+    public void AddItem(ItemObject item, int amount, Sprite sprite)
     {
         bool hasItem = false;
 
@@ -23,7 +23,9 @@ public class InventoryObject : ScriptableObject
 
         if (!hasItem)
         {
-            container.Add(new InventorySlot(item, amount));
+            Debug.Log(sprite);
+
+            container.Add(new InventorySlot(item, amount, sprite));
         }
     }
 }
@@ -33,11 +35,13 @@ public class InventorySlot
 {
     public ItemObject item;
     public int amount;
+    public Sprite sprite;
 
-    public InventorySlot(ItemObject item, int amount)
+    public InventorySlot(ItemObject item, int amount, Sprite sprite)
     {
         this.item = item;
         this.amount = amount;
+        this.sprite = sprite;
     }
 
     public void AddAmount(int value)

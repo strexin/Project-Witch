@@ -22,6 +22,12 @@ namespace ProjectWItch.Scripts.Items
         [SerializeField]
         private ItemObject item = null;
 
+        /// <summary>
+        /// Sprite that use to show the UI sprite of the item in inventory.
+        /// </summary>
+        [SerializeField]
+        private Sprite itemSprite = null;
+
         #endregion
 
         #region IInteractable
@@ -30,7 +36,7 @@ namespace ProjectWItch.Scripts.Items
         {
             Debug.Log("You interact with mushroom " + gameObject.name);
 
-            inventoryObject.AddItem(item, 1);
+            inventoryObject.AddItem(item, 1, itemSprite);
 
             Destroy(gameObject);
         }

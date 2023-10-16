@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.ProjectWItch.Scripts.UI
 {
@@ -61,35 +62,15 @@ namespace Assets.ProjectWItch.Scripts.UI
             UpdateDisplay();
         }
 
-        private void Start()
-        {
-            CreateDisplay();
-        }
-
         #endregion
 
         #region Main
 
         /// <summary>
-        /// Make display slot in inventory UI.
-        /// </summary>
-        private void CreateDisplay()
-        {
-            for (int i = 0; i < inventory.container.Count; i++)
-            {
-                var obj = Instantiate(inventory.container[i].item.itemPrefab, Vector3.zero, Quaternion.identity, transform);
-                obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
-
-                obj.GetComponentInChildren<TextMeshProUGUI>().text = inventory.container[i].amount.ToString("n0");
-                itemDisplayed.Add(inventory.container[i], obj);
-            }
-        }
-
-        /// <summary>
         /// Get slot position in the inventory UI.
         /// </summary>
         /// <param name="i">
-        /// Indeks of slot in inventory UI.
+        /// Index of slot in inventory UI.
         /// </param>
         /// <returns></returns>
         public Vector3 GetPosition(int i)
@@ -111,9 +92,13 @@ namespace Assets.ProjectWItch.Scripts.UI
                 else
                 {
                     var obj = Instantiate(inventory.container[i].item.itemPrefab, Vector3.zero, Quaternion.identity, transform);
-                    obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
 
+                    obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
                     obj.GetComponentInChildren<TextMeshProUGUI>().text = inventory.container[i].amount.ToString("n0");
+                    obj.GetComponentInChildren<Image>().sprite = inventory.container[i].sprite;
+
+                    Debug.Log(inventory.container[i].sprite);
+
                     itemDisplayed.Add(inventory.container[i], obj);
                 }
             }

@@ -16,6 +16,8 @@ namespace ProjectWItch.Scripts.Items
 
         public ItemType itemType;
 
+        public Sprite itemSprite;
+
         [TextArea(15, 20)]
         public string itemDescription;
     }

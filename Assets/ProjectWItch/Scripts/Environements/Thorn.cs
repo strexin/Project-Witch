@@ -1,6 +1,6 @@
+using Cysharp.Threading.Tasks;
 using ProjectWItch.Scripts.Interfaces;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ProjectWItch.Scripts.Environments
@@ -40,13 +40,13 @@ namespace ProjectWItch.Scripts.Environments
 
         public bool HasBurned { get; set; } = default;
 
-        public async Task GetBurn()
+        public async UniTask GetBurn()
         {
             HasBurned = true;
 
             fireEffect.SetActive(true);
 
-            await Task.Delay(2000, _cancellationTokenSource.Token);
+            await UniTask.Delay(2000, cancellationToken: _cancellationTokenSource.Token);
 
             foreach (var r in rays)
             {
@@ -58,15 +58,13 @@ namespace ProjectWItch.Scripts.Environments
                     {
                         if (!hit.transform.GetComponent<IBurnable>().HasBurned)
                         {
-                            Debug.Log("Found others");
-
                             await hit.transform.GetComponent<IBurnable>().GetBurn();
                         }
                     }
                 }
             }
 
-            await Task.Delay(4000, _cancellationTokenSource.Token);
+            await UniTask.Delay(4000, cancellationToken: _cancellationTokenSource.Token);
 
             Instantiate(smokeEndEffect, transform.position, Quaternion.identity);
 

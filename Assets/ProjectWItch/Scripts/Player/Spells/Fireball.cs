@@ -1,6 +1,7 @@
+using Cysharp.Threading.Tasks;
 using ProjectWItch.Scripts.Interfaces;
+using System;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ProjectWitch.Scripts.Player.Spells
@@ -11,11 +12,6 @@ namespace ProjectWitch.Scripts.Player.Spells
     public class Fireball : MonoBehaviour
     {
         #region Variable
-
-        /// <summary>
-        /// Component that use to move the object.
-        /// </summary>
-        private Rigidbody _rb = null;
 
         /// <summary>
         /// The value of speed when this object move.
@@ -40,8 +36,6 @@ namespace ProjectWitch.Scripts.Player.Spells
 
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody>();
-
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -52,7 +46,14 @@ namespace ProjectWitch.Scripts.Player.Spells
 
         private async void Start()
         {
-            await MoveForward();
+            await UniTask.Delay(3000, cancellationToken: _cancellationTokenSource.Token);
+
+            Destroy(gameObject);
+        }
+
+        private void Update()
+        {
+            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -74,25 +75,6 @@ namespace ProjectWitch.Scripts.Player.Spells
                     Destroy(gameObject);
                 }
             }
-        }
-
-        #endregion
-
-        #region Main
-
-        /// <summary>
-        /// Move the fireball forward when spawned.
-        /// </summary>
-        /// <returns>
-        /// return task. 
-        /// </returns>
-        private async Task MoveForward()
-        {
-            _rb.velocity = transform.forward * moveSpeed;
-
-            await Task.Delay(3000, _cancellationTokenSource.Token);
-
-            Destroy(gameObject);
         }
 
         #endregion

@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 4534646916561195787, guid: 94c1655d708b87249ba541ee264a92b0, type: 3}
   itemType: 2
+  itemSprite: {fileID: 21300000, guid: b1e349baf1733ac478e433f7bb949de3, type: 3}
   itemDescription: 

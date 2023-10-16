@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace ProjectWItch.Scripts.Interfaces
 {
@@ -13,7 +13,7 @@ namespace ProjectWItch.Scripts.Interfaces
         /// <returns>
         /// return task.
         /// </returns>
-        Task GetBurn();
+        UniTask GetBurn();
 
         /// <summary>
         /// Condition is the object already burn or not.

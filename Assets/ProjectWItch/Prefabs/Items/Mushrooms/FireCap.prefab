@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryObject: {fileID: 11400000, guid: 7f496dcb39c75a849b5f1b49d6bb376f, type: 2}
   item: {fileID: 11400000, guid: 645d1d34674edc941b1479692a4e980f, type: 2}
+  itemSprite: {fileID: 21300000, guid: b1e349baf1733ac478e433f7bb949de3, type: 3}
 --- !u!1001 &7794305178264210938
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91,7 +92,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6352184942146126214, guid: 47ded181e73460047bae5118c0254d3e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.06
       objectReference: {fileID: 0}
     - target: {fileID: 6352184942146126214, guid: 47ded181e73460047bae5118c0254d3e, type: 3}
       propertyPath: m_LocalPosition.z
