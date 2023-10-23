@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using ProjectWItch.Scripts.Items;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Assets.ProjectWItch.Scripts.UI
+namespace ProjectWItch.Scripts.UI
 {
     /// <summary>
     /// Handle the display item that player stored in inventory.
@@ -16,7 +18,7 @@ namespace Assets.ProjectWItch.Scripts.UI
         /// Component that use to get item that stored in inventory.
         /// </summary>
         [SerializeField]
-        private InventoryObject inventory;
+        private InventoryObject _inventory;
 
         /// <summary>
         /// Start position for displaying item in X axis.
@@ -39,8 +41,8 @@ namespace Assets.ProjectWItch.Scripts.UI
         /// <summary>
         /// The space between item display slot in Y axis.
         /// </summary>
-        [SerializeField]
-        private int ySpaceBetwwenItem;
+        [FormerlySerializedAs("ySpaceBetwwenItem")] [SerializeField]
+        private int ySpaceBetweenItem;
 
         /// <summary>
         /// Total slot column that display in inventory UI.
@@ -51,7 +53,7 @@ namespace Assets.ProjectWItch.Scripts.UI
         /// <summary>
         /// Component that use to match the slot and item that will be displayed.
         /// </summary>
-        private Dictionary<InventorySlot, GameObject> itemDisplayed = new Dictionary<InventorySlot, GameObject>();
+        private readonly Dictionary<InventorySlot, GameObject> _itemDisplayed = new Dictionary<InventorySlot, GameObject>();
 
         #endregion
 
@@ -73,9 +75,9 @@ namespace Assets.ProjectWItch.Scripts.UI
         /// Index of slot in inventory UI.
         /// </param>
         /// <returns></returns>
-        public Vector3 GetPosition(int i)
+        private Vector3 GetPosition(int i)
         {
-            return new Vector3(xStartPos + (xSpaceBetwwenItem * (i % numberOfColumn)), yStartPos + (-ySpaceBetwwenItem * (i / numberOfColumn)), 0.0f);
+            return new Vector3(xStartPos + (xSpaceBetwwenItem * (i % numberOfColumn)), yStartPos + (-ySpaceBetweenItem * (i / numberOfColumn)), 0.0f);
         }
 
         /// <summary>
@@ -83,23 +85,23 @@ namespace Assets.ProjectWItch.Scripts.UI
         /// </summary>
         private void UpdateDisplay()
         {
-            for (int i = 0; i < inventory.container.Count; i++)
+            for (int i = 0; i < _inventory.container.Count; i++)
             {
-                if (itemDisplayed.ContainsKey(inventory.container[i]))
+                if (_itemDisplayed.ContainsKey(_inventory.container[i]))
                 {
-                    itemDisplayed[inventory.container[i]].GetComponentInChildren<TextMeshProUGUI>().text = inventory.container[i].amount.ToString("n0");
+                    _itemDisplayed[_inventory.container[i]].GetComponentInChildren<TextMeshProUGUI>().text = _inventory.container[i].amount.ToString("n0");
                 }
                 else
                 {
-                    var obj = Instantiate(inventory.container[i].item.itemPrefab, Vector3.zero, Quaternion.identity, transform);
+                    var obj = Instantiate(_inventory.container[i].item.itemPrefab, Vector3.zero, Quaternion.identity, transform);
 
                     obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
-                    obj.GetComponentInChildren<TextMeshProUGUI>().text = inventory.container[i].amount.ToString("n0");
-                    obj.GetComponentInChildren<Image>().sprite = inventory.container[i].sprite;
+                    obj.GetComponentInChildren<TextMeshProUGUI>().text = _inventory.container[i].amount.ToString("n0");
+                    obj.GetComponentInChildren<Image>().sprite = _inventory.container[i].sprite;
 
-                    Debug.Log(inventory.container[i].sprite);
+                    Debug.Log(_inventory.container[i].sprite);
 
-                    itemDisplayed.Add(inventory.container[i], obj);
+                    _itemDisplayed.Add(_inventory.container[i], obj);
                 }
             }
         }

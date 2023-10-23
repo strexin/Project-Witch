@@ -1,0 +1,19 @@
+{
+    "name": "ProjectWitch.Scripts.UI",
+    "rootNamespace": "",
+    "references": [
+        "ProjectWitch.Scripts.Player",
+        "ProjectWitch.Scripts.Interfaces",
+        "Unity.TextMeshPro",
+        "ProjectWitch.Scripts.Items"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

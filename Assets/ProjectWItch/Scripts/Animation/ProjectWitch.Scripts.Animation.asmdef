@@ -1,0 +1,18 @@
+{
+    "name": "ProjectWitch.Scripts.Animation",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0c058d4402e15cb4893315fe92f66529",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:cfdd68166030128499e2cfd39d5f1ebb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

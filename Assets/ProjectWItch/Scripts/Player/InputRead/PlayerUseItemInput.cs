@@ -1,9 +1,9 @@
-﻿using ProjectWItch.Scripts.Interfaces;
-using System;
+﻿using System;
+using ProjectWItch.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.ProjectWItch.Scripts.Player.InputRead
+namespace ProjectWItch.Scripts.Player.InputRead
 {
     /// <summary>
     /// Implementation of IActionInput for player.

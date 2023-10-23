@@ -1,51 +1,53 @@
-using ProjectWItch.Scripts.Items;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
-public class InventoryObject : ScriptableObject
+namespace ProjectWItch.Scripts.Items
 {
-    public List<InventorySlot> container = new List<InventorySlot>();
-
-    public void AddItem(ItemObject item, int amount, Sprite sprite)
+    [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
+    public class InventoryObject : ScriptableObject
     {
-        bool hasItem = false;
+        public List<InventorySlot> container = new List<InventorySlot>();
 
-        for (int i = 0; i < container.Count; i++)
+        public void AddItem(ItemObject item, int amount, Sprite sprite)
         {
-            if (container[i].item == item)
+            bool hasItem = false;
+
+            for (int i = 0; i < container.Count; i++)
             {
-                container[i].AddAmount(amount);
-                hasItem = true;
-                break;
+                if (container[i].item == item)
+                {
+                    container[i].AddAmount(amount);
+                    hasItem = true;
+                    break;
+                }
+            }
+
+            if (!hasItem)
+            {
+                Debug.Log(sprite);
+
+                container.Add(new InventorySlot(item, amount, sprite));
             }
         }
+    }
 
-        if (!hasItem)
+    [System.Serializable]
+    public class InventorySlot
+    {
+        public ItemObject item;
+        public int amount;
+        public Sprite sprite;
+
+        public InventorySlot(ItemObject item, int amount, Sprite sprite)
         {
-            Debug.Log(sprite);
-
-            container.Add(new InventorySlot(item, amount, sprite));
+            this.item = item;
+            this.amount = amount;
+            this.sprite = sprite;
         }
-    }
-}
 
-[System.Serializable]
-public class InventorySlot
-{
-    public ItemObject item;
-    public int amount;
-    public Sprite sprite;
-
-    public InventorySlot(ItemObject item, int amount, Sprite sprite)
-    {
-        this.item = item;
-        this.amount = amount;
-        this.sprite = sprite;
-    }
-
-    public void AddAmount(int value)
-    {
-        amount += value;
+        public void AddAmount(int value)
+        {
+            amount += value;
+        }
     }
 }

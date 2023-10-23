@@ -1,11 +1,13 @@
-using ProjectWItch.Scripts.Items;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Mushroom Object", menuName = "Inventory System/Items/Mushrooms")]
-public class MushroomObjectSO : ItemObject
+namespace ProjectWItch.Scripts.Items
 {
-    private void Awake()
+    [CreateAssetMenu(fileName = "New Mushroom Object", menuName = "Inventory System/Items/Mushrooms")]
+    public class MushroomObjectSo : ItemObject
     {
-        itemType = ItemType.Mushroom;
+        private void Awake()
+        {
+            itemType = ItemType.Mushroom;
+        }
     }
 }

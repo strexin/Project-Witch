@@ -1,0 +1,16 @@
+{
+    "name": "ProjectWitch.Scripts.Items",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0c058d4402e15cb4893315fe92f66529"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

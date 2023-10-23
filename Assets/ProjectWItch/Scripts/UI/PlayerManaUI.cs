@@ -3,7 +3,7 @@ using ProjectWItch.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectWitch.Scripts.Player.UI
+namespace ProjectWItch.Scripts.UI
 {
     /// <summary>
     /// Handle the value display of player's mana.

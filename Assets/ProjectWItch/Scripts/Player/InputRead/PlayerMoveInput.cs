@@ -1,7 +1,7 @@
 using ProjectWItch.Scripts.Interfaces;
 using UnityEngine;
 
-namespace ProjectWitch.Scripts.Player.Movement.InputRead
+namespace ProjectWItch.Scripts.Player.InputRead
 {
     /// <summary>
     /// Implementation of IMoveInput for player.

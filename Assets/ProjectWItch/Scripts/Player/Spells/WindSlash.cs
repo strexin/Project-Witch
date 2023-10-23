@@ -1,6 +1,7 @@
 using ProjectWItch.Scripts.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace ProjectWitch.Scripts.Player.Spells
@@ -87,7 +88,7 @@ namespace ProjectWitch.Scripts.Player.Spells
         /// <returns>
         /// return task.
         /// </returns>
-        private async Task MoveForward()
+        private async UniTask MoveForward()
         {
             _rb.velocity = transform.forward * moveSpeed;
 

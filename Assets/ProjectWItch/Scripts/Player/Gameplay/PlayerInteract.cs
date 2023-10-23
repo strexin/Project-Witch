@@ -74,9 +74,8 @@ namespace ProjectWitch.Scripts.Player.Gameplay
                 {
                     other.gameObject.GetComponentInChildren<Outline>().enabled = false;
                 }
-
+                
                 _interactable = null;
-
                 _canInteract = false;
             }
         }
@@ -96,6 +95,7 @@ namespace ProjectWitch.Scripts.Player.Gameplay
             if (_canInteract && _interactable != null)
             {
                 _interactable.Interact();
+                _canInteract = false;
             }
         }
 

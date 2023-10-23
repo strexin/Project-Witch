@@ -133,14 +133,16 @@ namespace ProjectWitch.Scripts.Player.Movement
         /// <summary>
         /// Make the player move upward when using flying broom.
         /// </summary>
-        /// <returns><
+        /// <returns>
         /// IEnumerator.
-        /// /returns>
+        /// </returns>
         private IEnumerator UpwardFlyingBroom()
         {
             while (_isUsingFlyingBroom && transform.position.y != 2.0f)
             {
-                transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, 3.0f, 0.1f), transform.position.z);
+                var position = transform.position;
+                position = new Vector3(position.x, Mathf.Lerp(position.y, 3.0f, 0.1f), position.z);
+                transform.position = position;
 
                 yield return new WaitForEndOfFrame();
             }

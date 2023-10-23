@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using ProjectWItch.Scripts.Interfaces;
-using System;
 using System.Threading;
 using UnityEngine;
 
@@ -53,7 +52,7 @@ namespace ProjectWitch.Scripts.Player.Spells
 
         private void Update()
         {
-            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+            transform.Translate(Vector3.forward * (moveSpeed * Time.deltaTime));
         }
 
         private void OnCollisionEnter(Collision collision)
