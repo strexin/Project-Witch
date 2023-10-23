@@ -976,7 +976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ff090019d3f464b93ab9bdd2ad6442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventory: {fileID: 0}
+  _inventory: {fileID: 11400000, guid: 7f496dcb39c75a849b5f1b49d6bb376f, type: 2}
   xStartPos: -600
   yStartPos: 162
   xSpaceBetwwenItem: 250
